@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+    <!-- Component scanning for services, controllers, etc. -->
+    <context:component-scan base-package="com.technova" />
+
+    <!-- Enable JPA repositories scanning -->
+    <jpa:repositories base-package="com.technova.repository" />
+
+    <!-- Data Source Configuration -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/TechNova" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/TechNova?characterEncoding=UTF-8" />
         <property name="username" value="postgres" />
         <property name="password" value="password" />
     </bean>
-    <!-- Configuration de JPA (EntityManager) -->
+
+    <!-- JPA (EntityManager) Configuration -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan" value="com.technova.bean" />
@@ -18,10 +30,6 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="jakarta.persistence.jdbc.url">jdbc:postgresql://localhost:5432/TechNova</prop>
-                <prop key="jakarta.persistence.jdbc.user">postgres</prop>
-                <prop key="jakarta.persistence.jdbc.password">password</prop>
-                <prop key="jakarta.persistence.jdbc.driver">org.postgresql.Driver</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.show_sql">true</prop>
@@ -29,10 +37,10 @@
             </props>
         </property>
     </bean>
-    <!-- Gestionnaire de transactions JPA -->
+
+    <!-- JPA Transaction Manager -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-
 
 </beans>

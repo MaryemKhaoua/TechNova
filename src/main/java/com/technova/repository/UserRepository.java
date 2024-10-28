@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     User save(User user);
     Optional<User> findById(Long id);
-    User findByLastName(String name);
     List<User> findAll();
     void deleteById(Long id);
 }

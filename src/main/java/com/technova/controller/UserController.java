@@ -24,7 +24,7 @@ public class UserController {
     public String getAllUsers(Model model) {
         List<User> users = userService.getUsers();
         model.addAttribute("users", users);
-        return "users-list";
+        return "users";
     }
 
     @PostMapping("/create")
